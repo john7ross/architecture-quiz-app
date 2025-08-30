@@ -1,520 +1,8 @@
 // Скопируйте весь код из dochub-quiz-app.tsx и замените export default на обычный export
 import React, { useState, useReducer } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CheckCircle, XCircle, BarChart3, Book, Code, Settings, Layers, Building, ArrowLeft } from 'lucide-react';
-
-const dochubQuestions = [
-  {
-    id: 1,
-    question: "Что такое DocHub?",
-    options: [
-      "Система управления базами данных",
-      "Инструмент описания архитектуры через код (Architecture as a code)",
-      "Облачное хранилище документов",
-      "Система контроля версий"
-    ],
-    correct: 1,
-    explanation: "DocHub - это инструмент описания архитектуры через код (Architecture as a code). Код архитектуры представляет собой ансамбль файлов на языках, решающих задачу описания архитектуры системы."
-  },
-  {
-    id: 2,
-    question: "Какие языки описания поддерживает DocHub?",
-    options: [
-      "Только Markdown и PlantUML",
-      "Markdown, PlantUML, BPMN, Mermaid, Swagger, AsyncAPI",
-      "Только JSON и YAML",
-      "HTML и CSS"
-    ],
-    correct: 1,
-    explanation: "DocHub поддерживает множество языков: Markdown (разметка текста), PlantUML (диаграммы), BPMN (бизнес-процессы), Mermaid (диаграммы через код), Swagger (HTTP API), AsyncAPI (событийные контракты), SmartAnts (презентация архитектуры) и манифесты YAML/JSON."
-  },
-  {
-    id: 3,
-    question: "Что означает принцип 'Архитектура как данные' в DocHub?",
-    options: [
-      "Архитектура хранится в базе данных",
-      "Можно получать ценные сведения из архитектуры, используя язык запросов JSONata",
-      "Архитектура описывается только в JSON формате",
-      "Данные архитектуры нельзя изменять"
-    ],
-    correct: 1,
-    explanation: "Принцип 'Архитектура как данные' означает, что вы можете получать ценные для себя сведения из архитектуры, используя язык запросов JSONata. Простейшим примером этого подхода являются табличные документы."
-  },
-  {
-    id: 4,
-    question: "Какая система управления версиями используется в DocHub по умолчанию?",
-    options: [
-      "GitHub",
-      "GitLab",
-      "Bitbucket",
-      "Azure DevOps"
-    ],
-    correct: 1,
-    explanation: "DocHub использует GitLab в качестве системы управления версиями. Это позволяет развивать кодовую базу архитектуры аналогично кодовой базе приложений."
-  },
-  {
-    id: 5,
-    question: "Что такое SmartAnts в контексте DocHub?",
-    options: [
-      "Искусственный интеллект для анализа архитектуры",
-      "Продвинутый инструмент презентации архитектуры",
-      "Система автоматического тестирования",
-      "Плагин для IDE"
-    ],
-    correct: 1,
-    explanation: "SmartAnts - это продвинутый инструмент презентации архитектуры в DocHub. Он позволяет создавать интерактивные презентации архитектурных решений."
-  },
-  {
-    id: 6,
-    question: "Какие IDE поддерживают плагины для DocHub?",
-    options: [
-      "Только IntelliJ IDEA",
-      "Только Visual Studio Code",
-      "IntelliJ IDEA и Visual Studio Code",
-      "Eclipse и NetBeans"
-    ],
-    correct: 2,
-    explanation: "DocHub имеет плагины для IntelliJ IDEA (доступен в JetBrains Marketplace) и Visual Studio Code. Плагин для IDEA также доступен в официальном проекте."
-  },
-  {
-    id: 7,
-    question: "Какая лицензия используется для DocHub?",
-    options: [
-      "MIT License",
-      "GPL v3",
-      "Apache License 2.0",
-      "BSD License"
-    ],
-    correct: 2,
-    explanation: "DocHub распространяется под лицензией Apache License 2.0 Open source license. Это FOSS (Free and Open-Source Software) продукт."
-  },
-  {
-    id: 8,
-    question: "Что такое манифесты в DocHub?",
-    options: [
-      "Конфигурационные файлы для сервера",
-      "Структурированные файлы в формате YAML/JSON для описания архитектурных объектов",
-      "Файлы с метаданными о проекте",
-      "Документация по API"
-    ],
-    correct: 1,
-    explanation: "Манифесты в DocHub - это структурированные файлы в формате YAML/JSON для описания архитектурных объектов. Они являются одним из поддерживаемых языков описания архитектуры."
-  },
-  {
-    id: 9,
-    question: "Какая основная проблема решается децентрализованным управлением архитектурой в DocHub?",
-    options: [
-      "Медленная работа системы",
-      "Управление архитектурой в Agile-ориентированных компаниях",
-      "Сложность установки",
-      "Отсутствие визуализации"
-    ],
-    correct: 1,
-    explanation: "Децентрализованное управление архитектурой решает проблему управления в Agile-ориентированных компаниях, где команды должны действовать независимо, но в сотрудничестве друг с другом."
-  },
-  {
-    id: 10,
-    question: "Как можно развернуть DocHub локально?",
-    options: [
-      "Только через npm",
-      "Только через Docker",
-      "Через Docker (docker-compose up --build) или через npm (npm ci && npm run build)",
-      "Только через готовые исполняемые файлы"
-    ],
-    correct: 2,
-    explanation: "DocHub можно развернуть локально двумя способами: через Docker с командой 'docker-compose up --build' или как VueJS приложение через npm командами 'npm ci' и 'npm run build'."
-  },
-  {
-    id: 11,
-    question: "Что необходимо для работы с GitLab в DocHub?",
-    options: [
-      "Только логин и пароль",
-      "Персональный токен GitLab",
-      "SSH ключи",
-      "API ключ администратора"
-    ],
-    correct: 1,
-    explanation: "Для работы с GitLab в DocHub необходимо создать персональный токен в Profile->Preferences->Access Tokens и указать его в переменной VUE_APP_DOCHUB_PERSONAL_TOKEN в файле .env."
-  },
-  {
-    id: 12,
-    question: "Что такое 'архитектурные фасады' в DocHub?",
-    options: [
-      "Красивый интерфейс системы",
-      "Портал документации",
-      "Система авторизации",
-      "Внешние API"
-    ],
-    correct: 1,
-    explanation: "Архитектурные фасады в DocHub - это порталы документации. DocHub хорошо решает задачу создания публичного портала документации архитектуры."
-  },
-  {
-    id: 13,
-    question: "Какой язык запросов используется для анализа архитектуры в DocHub?",
-    options: [
-      "SQL",
-      "GraphQL",
-      "JSONata",
-      "XPath"
-    ],
-    correct: 2,
-    explanation: "Для анализа архитектуры в DocHub используется язык запросов JSONata. Это ключевая часть принципа 'Архитектура как данные'."
-  },
-  {
-    id: 14,
-    question: "Какое расширение файлов используется для корневого манифеста в DocHub?",
-    options: [
-      ".json",
-      ".xml",
-      ".yaml",
-      ".txt"
-    ],
-    correct: 2,
-    explanation: "Корневой манифест в DocHub обычно имеет расширение .yaml, как указано в примере переменной VUE_APP_DOCHUB_ROOT_MANIFEST=workspace/repo/root.yaml."
-  },
-  {
-    id: 15,
-    question: "Что означает BPMN в контексте DocHub?",
-    options: [
-      "Business Process Model Notation - нотация описания бизнес-процессов",
-      "Binary Process Management Network",
-      "Basic Programming Model Notation",
-      "Business Project Management Notes"
-    ],
-    correct: 0,
-    explanation: "BPMN расшифровывается как Business Process Model Notation - нотация описания бизнес-процессов. В DocHub поддерживается BPMN нотация с использованием bpmnjs."
-  },
-  {
-    id: 16,
-    question: "Какой порт по умолчанию используется для локального развертывания DocHub?",
-    options: [
-      "3000",
-      "8000",
-      "8080",
-      "9000"
-    ],
-    correct: 2,
-    explanation: "По умолчанию DocHub развертывается на порту 8080 и становится доступен по адресу http://localhost:8080/main."
-  },
-  {
-    id: 17,
-    question: "Что такое 'экосистема' в контексте DocHub?",
-    options: [
-      "Набор инструментов разработки",
-      "Среда, где продукты взаимосвязаны, но развиваются автономно",
-      "Облачная инфраструктура",
-      "Команда разработчиков"
-    ],
-    correct: 1,
-    explanation: "В контексте DocHub экосистема - это среда, где продукты взаимосвязаны, но развиваются автономно. DocHub позволяет создать единое информационное пространство для такой экосистемы."
-  },
-  {
-    id: 18,
-    question: "Какую версию Node.js требует DocHub для развертывания?",
-    options: [
-      "16.x.x",
-      "18.x.x",
-      "20.x.x",
-      "22.x.x"
-    ],
-    correct: 2,
-    explanation: "Для развертывания DocHub требуется Node.js версии 20.x.x и npm версии не ниже 8.1.x."
-  },
-  {
-    id: 19,
-    question: "Что такое 'контроль консистентности' в DocHub?",
-    options: [
-      "Проверка правописания в документации",
-      "Поиск проблем в описании архитектуры и контроль определенных правил",
-      "Синхронизация с внешними системами",
-      "Резервное копирование данных"
-    ],
-    correct: 1,
-    explanation: "Контроль консистентности в DocHub - это возможность находить проблемы в описании архитектуры и контролировать определенные вами правила архитектуры."
-  },
-  {
-    id: 20,
-    question: "Какая папка используется для локального развертывания архитектурных репозиториев?",
-    options: [
-      "/src/workspace",
-      "/public/workspace",
-      "/docs/workspace",
-      "/app/workspace"
-    ],
-    correct: 1,
-    explanation: "Для локального развертывания архитектурных репозиториев используется папка '/public/workspace'. Эта папка входит в .gitignore и предназначена для локальной разработки."
-  },
-  {
-    id: 21,
-    question: "Что означает расширяемая метамодель в DocHub?",
-    options: [
-      "Возможность добавлять новые функции только разработчикам",
-      "Возможность модифицировать существующие сущности и создавать собственные",
-      "Автоматическое обновление модели данных",
-      "Импорт моделей из других систем"
-    ],
-    correct: 1,
-    explanation: "Расширяемая метамодель DocHub означает, что есть возможность как модифицировать уже существующие сущности, так и создавать собственные по вашему желанию."
-  },
-  {
-    id: 22,
-    question: "Какая технология используется для frontend DocHub?",
-    options: [
-      "React",
-      "Angular",
-      "VueJS",
-      "Svelte"
-    ],
-    correct: 2,
-    explanation: "DocHub является VueJS SPA (Single Page Application) приложением. В качестве backend используется GitLab."
-  },
-  {
-    id: 23,
-    question: "Что такое AsyncAPI в контексте DocHub?",
-    options: [
-      "Асинхронная обработка запросов",
-      "Язык описания событийных контрактов",
-      "Протокол передачи данных",
-      "Система кеширования"
-    ],
-    correct: 1,
-    explanation: "AsyncAPI - это язык описания событийных контрактов, который поддерживается в DocHub наряду с другими языками описания архитектуры."
-  },
-  {
-    id: 24,
-    question: "Начиная с какой версии в DocHub введен комьюнити-взнос?",
-    options: [
-      "v3.12.0",
-      "v3.13.1",
-      "v3.14.0",
-      "v4.0.0"
-    ],
-    correct: 1,
-    explanation: "Начиная с релиза v3.13.1, в дополнение к лицензии Apache 2.0 вводится комьюнити-взнос в развитие DocHub, который заключается в обязательстве не скрывать использование DocHub."
-  },
-  {
-    id: 25,
-    question: "Какой веб-сервер рекомендуется для публикации статических файлов DocHub?",
-    options: [
-      "Apache",
-      "nginx",
-      "IIS",
-      "Tomcat"
-    ],
-    correct: 1,
-    explanation: "Для публикации статических файлов DocHub после сборки рекомендуется использовать веб-сервер nginx."
-  }
-];
-
-// Вопросы по DDD
-const dddQuestions = [
-  {
-    id: 1,
-    question: "Что такое Domain-Driven Design (DDD)?",
-    options: [
-      "Метод проектирования баз данных",
-      "Подход к разработке ПО, ставящий бизнес-домен в центр принятия решений",
-      "Паттерн проектирования интерфейсов",
-      "Методология управления проектами"
-    ],
-    correct: 1,
-    explanation: "DDD - это подход к разработке программного обеспечения, который ставит бизнес-домен, а не базы данных или фреймворки, в центр принятия решений. Он требует глубокого сотрудничества инженеров с экспертами предметной области."
-  },
-  {
-    id: 2,
-    question: "Чем отличаются Core, Supporting и Generic поддомены?",
-    options: [
-      "Только сложностью реализации",
-      "Core - уникальность бизнеса, Supporting - вспомогательные процессы, Generic - универсальные решения",
-      "Только размером команды разработки",
-      "Только технологическим стеком"
-    ],
-    correct: 1,
-    explanation: "Core (основной) поддомен обеспечивает конкурентное преимущество компании. Supporting (вспомогательный) - поддерживает основную деятельность, но не дает преимуществ. Generic (универсальный) - решения, одинаковые для всех компаний."
-  },
-  {
-    id: 3,
-    question: "Что такое Bounded Context (Ограниченный контекст)?",
-    options: [
-      "Ограничение по времени выполнения",
-      "Зона, где термины и бизнес-модель имеют чёткое, непротиворечивое значение",
-      "Технические ограничения системы",
-      "Ограничение доступа пользователей"
-    ],
-    correct: 1,
-    explanation: "Bounded Context - это зона, в которой термины и бизнес-модель имеют чёткое, непротиворечивое значение. Например, 'Клиент' в отделе продаж и в бухгалтерии может иметь разные значения, поэтому нужны разные контексты."
-  },
-  {
-    id: 4,
-    question: "Что такое Ubiquitous Language (Единый язык)?",
-    options: [
-      "Язык программирования для домена",
-      "Общий словарь терминов для команды и бизнеса без технического жаргона",
-      "Международный стандарт документации",
-      "Язык запросов к базе данных"
-    ],
-    correct: 1,
-    explanation: "Ubiquitous Language - это общий язык бизнеса, состоящий только из понятий предметной области без технического жаргона. Он должен быть четко выраженным и согласованным без синонимов и неоднозначностей."
-  },
-  {
-    id: 5,
-    question: "Что такое Entity (Сущность) в DDD?",
-    options: [
-      "Неизменяемый объект без идентификации",
-      "Объект с уникальным идентификатором и жизненным циклом",
-      "Функция для обработки данных",
-      "Таблица в базе данных"
-    ],
-    correct: 1,
-    explanation: "Entity (Сущность) - это объект с уникальным идентификатором и жизненным циклом. Сущности изменяются со временем, но сохраняют свою идентичность на протяжении всего жизненного цикла."
-  },
-  {
-    id: 6,
-    question: "Что такое Value Object (Объект-значение)?",
-    options: [
-      "Объект с уникальным идентификатором",
-      "Неизменяемый объект без идентичности, определяемый своими атрибутами",
-      "Изменяемый объект для хранения данных",
-      "Объект для работы с базой данных"
-    ],
-    correct: 1,
-    explanation: "Value Object - это неизменяемый объект без идентичности, который определяется исключительно своими атрибутами. Примеры: адрес, деньги, координаты. Два объекта-значения равны, если равны все их атрибуты."
-  },
-  {
-    id: 7,
-    question: "Что такое Aggregate (Агрегат) в DDD?",
-    options: [
-      "Сумма всех данных в системе",
-      "Кластер связанных сущностей и объектов-значений, обеспечивающий согласованность",
-      "Отчет по данным",
-      "Группа микросервисов"
-    ],
-    correct: 1,
-    explanation: "Aggregate - это кластер связанных сущностей и объектов-значений, которые рассматриваются как единое целое для обеспечения согласованности данных. У агрегата есть Aggregate Root - главная сущность, через которую происходит доступ."
-  },
-  {
-    id: 8,
-    question: "Что такое Domain Service (Доменный сервис)?",
-    options: [
-      "Веб-сервис для внешних интеграций",
-      "Сервис, содержащий доменную логику, которая не помещается в сущности или объекты-значения",
-      "Сервис для работы с базой данных",
-      "Сервис для аутентификации"
-    ],
-    correct: 1,
-    explanation: "Domain Service содержит доменную логику, которая не может быть естественным образом размещена в сущностях или объектах-значениях. Например, логика, которая работает с несколькими агрегатами."
-  },
-  {
-    id: 9,
-    question: "В чем разница между поддоменом и ограниченным контекстом?",
-    options: [
-      "Это одно и то же",
-      "Поддомен - 'что' мы моделируем, Контекст - 'как' мы это делаем",
-      "Поддомен технический, контекст бизнесовый",
-      "Различий нет, это синонимы"
-    ],
-    correct: 1,
-    explanation: "Поддомен - это 'что' мы моделируем (область деятельности), а ограниченный контекст - 'как' мы это делаем (модель в коде). Один поддомен может быть реализован в нескольких контекстах."
-  },
-  {
-    id: 10,
-    question: "Какие паттерны интеграции контекстов существуют в DDD?",
-    options: [
-      "Только синхронные вызовы",
-      "Partnership, Shared Kernel, Conformist, Anticorruption Layer, Open-host Service, Separate Ways",
-      "Только через базу данных",
-      "Только REST API"
-    ],
-    correct: 1,
-    explanation: "В DDD существуют стратегические паттерны интеграции: Partnership (партнерство), Shared Kernel (общее ядро), Conformist (конформист), Anticorruption Layer (защитный слой), Open-host Service (открытый сервис), Separate Ways (разные пути)."
-  },
-  {
-    id: 11,
-    question: "Что такое Anticorruption Layer?",
-    options: [
-      "Защита от вирусов в коде",
-      "Слой, который защищает модель контекста от влияния внешних систем",
-      "Система логирования ошибок",
-      "Защита базы данных"
-    ],
-    correct: 1,
-    explanation: "Anticorruption Layer - это защитный слой, который изолирует внутреннюю модель домена от внешних систем, переводя внешние модели в термины локального контекста и предотвращая 'загрязнение' доменной модели."
-  },
-  {
-    id: 12,
-    question: "Что означает принцип 'Tell, Don't Ask' в DDD?",
-    options: [
-      "Не задавать вопросы пользователям",
-      "Объекты должны выполнять операции, а не отдавать данные для обработки вовне",
-      "Не использовать интерактивные интерфейсы",
-      "Скрывать всю информацию от пользователей"
-    ],
-    correct: 1,
-    explanation: "Принцип 'Tell, Don't Ask' означает, что вместо получения данных из объекта и их обработки снаружи, лучше сказать объекту, что нужно сделать. Это помогает инкапсулировать поведение внутри доменных объектов."
-  },
-  {
-    id: 13,
-    question: "Что такое Repository в DDD?",
-    options: [
-      "Git-репозиторий для кода",
-      "Интерфейс для доступа к агрегатам, скрывающий детали хранения данных",
-      "Класс для работы с файлами",
-      "Система резервного копирования"
-    ],
-    correct: 1,
-    explanation: "Repository в DDD - это интерфейс, который обеспечивает доступ к агрегатам, скрывая детали их хранения. Он представляет коллекцию объектов в памяти, абстрагируясь от конкретной технологии хранения."
-  },
-  {
-    id: 14,
-    question: "Что такое Domain Event (Доменное событие)?",
-    options: [
-      "Ошибка в работе системы",
-      "Событие, которое произошло в домене и важно для бизнеса",
-      "Событие пользовательского интерфейса",
-      "Системное событие сервера"
-    ],
-    correct: 1,
-    explanation: "Domain Event - это событие, которое произошло в предметной области и представляет интерес для бизнеса. Например, 'Заказ размещен', 'Платеж обработан'. Используется для связи между агрегатами и контекстами."
-  },
-  {
-    id: 15,
-    question: "В чем заключается идея Clean Architecture в контексте DDD?",
-    options: [
-      "Чистый код без комментариев",
-      "Разделение на слои, где бизнес-логика независима от инфраструктуры",
-      "Удаление неиспользуемого кода",
-      "Стандартизация именования переменных"
-    ],
-    correct: 1,
-    explanation: "Clean Architecture разделяет систему на слои, где внутренние слои (доменная логика) не зависят от внешних (UI, БД, фреймворки). Зависимости направлены от внешних слоев к внутренним, что обеспечивает гибкость и тестируемость."
-  }
-];
-
-const architectureQuestions = [
-  {
-    id: 1,
-    question: "Что такое архитектура программного обеспечения?",
-    options: [
-      "Только структура кода",
-      "Фундаментальная структура системы, включающая компоненты, их отношения и принципы проектирования",
-      "Диаграммы в документации",
-      "Выбор технологий"
-    ],
-    correct: 1,
-    explanation: "Архитектура ПО - это фундаментальная структура системы, включающая её компоненты, их отношения друг с другом и с окружением, а также принципы, которыми руководствуются при проектировании и развитии системы."
-  },
-  {
-    id: 2,
-    question: "В чем заключаются основные задачи архитектора ПО?",
-    options: [
-      "Только написание кода",
-      "Принятие архитектурных решений, управление техническими рисками, обеспечение качественных атрибутов",
-      "Только управление командой",
-      "Только документирование"
-    ],
-    correct: 1,
-    explanation: "Архитектор ПО принимает ключевые архитектурные решения, управляет техническими рисками, обеспечивает достижение качественных атрибутов системы (производительность, надежность, масштабируемость) и направляет техническое развитие проекта."
-  }
-];
+import { dochubQuestions, dddQuestions, architectureQuestions } from './questions';
 
 // Reducer для управления состоянием квиза
 const quizReducer = (state, action) => {
@@ -645,8 +133,8 @@ function ArchitectureQuizApp() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
               {/* Квиз по DocHub */}
-              <div className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-                <div className="mb-6">
+              <div className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col h-full">
+                <div className="mb-6 h-48">
                   <Book className="mx-auto h-16 w-16 text-blue-600 mb-4" />
                   <h3 className="text-2xl font-bold text-gray-800 mb-2">DocHub</h3>
                   <p className="text-gray-600 text-sm leading-relaxed">
@@ -657,17 +145,19 @@ function ArchitectureQuizApp() {
                   <div className="text-2xl font-bold text-blue-600">{dochubQuestions.length}</div>
                   <div className="text-sm text-gray-600">вопросов</div>
                 </div>
+                <div className="mt-auto">
                 <button
                   onClick={() => dispatch({ type: 'SELECT_QUIZ', payload: 'dochub' })}
                   className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 transform hover:scale-105"
                 >
                   Начать тест
                 </button>
+                </div>
               </div>
 
               {/* Квиз по DDD */}
-              <div className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-                <div className="mb-6">
+              <div className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col h-full">
+                <div className="mb-6 h-48">
                   <Layers className="mx-auto h-16 w-16 text-green-600 mb-4" />
                   <h3 className="text-2xl font-bold text-gray-800 mb-2">Domain-Driven Design</h3>
                   <p className="text-gray-600 text-sm leading-relaxed">
@@ -678,17 +168,19 @@ function ArchitectureQuizApp() {
                   <div className="text-2xl font-bold text-green-600">{dddQuestions.length}</div>
                   <div className="text-sm text-gray-600">вопросов</div>
                 </div>
+                <div className="mt-auto">
                 <button
                   onClick={() => dispatch({ type: 'SELECT_QUIZ', payload: 'ddd' })}
                   className="w-full bg-gradient-to-r from-green-600 to-green-700 text-white py-3 px-6 rounded-xl font-semibold hover:from-green-700 hover:to-green-800 transition-all duration-200 transform hover:scale-105"
                 >
                   Начать тест
                 </button>
+                </div>
               </div>
 
               {/* Квиз по архитектуре */}
-              <div className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-                <div className="mb-6">
+              <div className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col h-full">
+                <div className="mb-6 h-48">
                   <Building className="mx-auto h-16 w-16 text-purple-600 mb-4" />
                   <h3 className="text-2xl font-bold text-gray-800 mb-2">Проектирование архитектуры</h3>
                   <p className="text-gray-600 text-sm leading-relaxed">
@@ -699,12 +191,14 @@ function ArchitectureQuizApp() {
                   <div className="text-2xl font-bold text-purple-600">{architectureQuestions.length}</div>
                   <div className="text-sm text-gray-600">вопросов</div>
                 </div>
+                <div className="mt-auto">
                 <button
                   onClick={() => dispatch({ type: 'SELECT_QUIZ', payload: 'architecture' })}
                   className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 px-6 rounded-xl font-semibold hover:from-purple-700 hover:to-purple-800 transition-all duration-200 transform hover:scale-105"
                 >
                   Начать тест
                 </button>
+                </div>
               </div>
             </div>
 
@@ -921,6 +415,17 @@ function ArchitectureQuizApp() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <div className="max-w-4xl mx-auto py-8">
+        {/* Кнопка выхода на главную */}
+        <div className="mb-6">
+          <button
+            onClick={() => dispatch({ type: 'BACK_TO_MENU' })}
+            className="flex items-center text-indigo-600 hover:text-indigo-800 transition-colors"
+          >
+            <ArrowLeft className="h-5 w-5 mr-2" />
+            Выйти на главную
+          </button>
+        </div>
+
         {/* Шкала прогресса */}
         <div className="mb-8">
           <div className="flex justify-between text-sm text-gray-600 mb-2">
@@ -1022,4 +527,14 @@ function ArchitectureQuizApp() {
   );
 }
 
-export default ArchitectureQuizApp;
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="*" element={<ArchitectureQuizApp />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
