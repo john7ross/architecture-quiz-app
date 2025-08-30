@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/architecture-quiz-app/static/js/main.ba53bf37.js",
+    "index.html": "/architecture-quiz-app/index.html",
+    "main.ba53bf37.js.map": "/architecture-quiz-app/static/js/main.ba53bf37.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.ba53bf37.js"
+  ]
+}
