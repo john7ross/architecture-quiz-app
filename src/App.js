@@ -412,6 +412,11 @@ function ArchitectureQuizApp() {
   }
 
   // Процесс прохождения теста
+  const lastAnswer = state.answers[state.answers.length - 1];
+  const lastAnsweredQuestion = lastAnswer
+    ? questions.find(q => q.id === lastAnswer.questionId)
+    : null;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <div className="max-w-4xl mx-auto py-8">
@@ -469,38 +474,38 @@ function ArchitectureQuizApp() {
           ) : (
             <div className="text-center">
               <div className="mb-6">
-                {state.answers[state.answers.length - 1].correct ? (
+                {lastAnswer.correct ? (
                   <CheckCircle className="mx-auto h-16 w-16 text-green-500 mb-4" />
                 ) : (
                   <XCircle className="mx-auto h-16 w-16 text-red-500 mb-4" />
                 )}
-                
-                <h3 className={`text-3xl font-bold mb-4 ${state.answers[state.answers.length - 1].correct ? 'text-green-600' : 'text-red-600'}`}>
-                  {state.answers[state.answers.length - 1].correct ? 'Правильно!' : 'Неправильно!'}
+
+                <h3 className={`text-3xl font-bold mb-4 ${lastAnswer.correct ? 'text-green-600' : 'text-red-600'}`}>
+                  {lastAnswer.correct ? 'Правильно!' : 'Неправильно!'}
                 </h3>
               </div>
 
-              {!state.answers[state.answers.length - 1].correct && (
+              {!lastAnswer.correct && (
                 <div className="bg-red-50 border border-red-200 rounded-xl p-6 mb-6">
                   <h4 className="font-semibold text-red-800 mb-2">Правильный ответ:</h4>
                   <p className="text-red-700 font-medium mb-3">
-                    {String.fromCharCode(65 + currentQuestion.correct)}. {currentQuestion.options[currentQuestion.correct]}
+                    {String.fromCharCode(65 + lastAnsweredQuestion.correct)}. {lastAnsweredQuestion.options[lastAnsweredQuestion.correct]}
                   </p>
                   <div className="text-left">
                     <h5 className="font-semibold text-red-800 mb-2">Объяснение:</h5>
                     <p className="text-red-700 text-sm leading-relaxed">
-                      {currentQuestion.explanation}
+                      {lastAnsweredQuestion.explanation}
                     </p>
                   </div>
                 </div>
               )}
 
-              {state.answers[state.answers.length - 1].correct && (
+              {lastAnswer.correct && (
                 <div className="bg-green-50 border border-green-200 rounded-xl p-6 mb-6">
                   <div className="text-left">
                     <h5 className="font-semibold text-green-800 mb-2">Пояснение:</h5>
                     <p className="text-green-700 text-sm leading-relaxed">
-                      {currentQuestion.explanation}
+                      {lastAnsweredQuestion.explanation}
                     </p>
                   </div>
                 </div>
