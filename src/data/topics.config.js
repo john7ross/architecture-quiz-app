@@ -40,11 +40,9 @@ export const topics = [
     description: 'Нейросети, ML, агенты, MCP, transformers, RAG, fine-tuning',
     icon: 'Sparkles',
     color: '#f59e0b', // amber
-    file: 'ai.json',
-    totalQuestions: 200,
+    file: 'ai-automation.json',
     difficulty: 'intermediate',
-    tags: ['ai', 'ml', 'agents', 'automation', 'neural-networks'],
-    comingSoon: true // будет добавлено позже
+    tags: ['ai', 'ml', 'agents', 'automation', 'neural-networks']
   },
   {
     id: 'cs',
@@ -53,10 +51,8 @@ export const topics = [
     icon: 'Code',
     color: '#ec4899', // pink
     file: 'computer-science.json',
-    totalQuestions: 200,
     difficulty: 'beginner-advanced',
-    tags: ['algorithms', 'data-structures', 'patterns', 'solid', 'oop', 'fp'],
-    comingSoon: true
+    tags: ['algorithms', 'data-structures', 'patterns', 'solid', 'oop', 'fp']
   }
 ];
 
@@ -82,33 +78,40 @@ export const getAllTopics = () => {
 };
 
 /**
- * Загрузить количество вопросов для темы из JSON файла
+ * Загрузить вопросы темы из её JSON-файла.
+ * Webpack включает в сборку все .json из папки ./topics, поэтому для
+ * добавления новой темы достаточно положить файл в эту папку и указать
+ * его имя в поле `file` соответствующей записи конфигурации.
  */
-export const loadTopicQuestionCount = async (topicId) => {
+export const loadTopicQuestions = async (file) => {
+  const module = await import(`./topics/${file}`);
+  const data = module.default || module;
+  return data.questions || [];
+};
+
+/**
+ * Загрузить количество вопросов для темы по имени файла.
+ */
+export const loadTopicQuestionCount = async (file) => {
   try {
-    const module = await import(`./topics/${topicId}.json`);
-    const data = module.default || module;
-    return data.questions?.length || 0;
+    const questions = await loadTopicQuestions(file);
+    return questions.length;
   } catch (error) {
-    console.error(`Failed to load question count for ${topicId}:`, error);
+    console.error(`Не удалось загрузить вопросы для ${file}:`, error);
     return 0;
   }
 };
 
 /**
- * Загрузить количество вопросов для всех тем
+ * Загрузить количество вопросов для всех тем.
  */
 export const loadAllTopicQuestionCounts = async () => {
-  const topicsWithCounts = await Promise.all(
-    topics.map(async (topic) => {
-      if (topic.comingSoon) {
-        return { ...topic, totalQuestions: 0 };
-      }
-      const count = await loadTopicQuestionCount(topic.file.replace('.json', ''));
-      return { ...topic, totalQuestions: count };
-    })
+  return Promise.all(
+    topics.map(async (topic) => ({
+      ...topic,
+      totalQuestions: await loadTopicQuestionCount(topic.file)
+    }))
   );
-  return topicsWithCounts;
 };
 
 /**
