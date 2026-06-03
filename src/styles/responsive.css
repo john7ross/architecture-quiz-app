@@ -1,0 +1,525 @@
+/* ============================================
+   Адаптивные стили для разных устройств
+   ============================================ */
+
+/* Малые телефоны (до 375px) */
+@media (max-width: 375px) {
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .subtitle {
+    font-size: 0.9375rem;
+  }
+
+  .topics-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .topic-card {
+    padding: 1.25rem;
+  }
+
+  .topic-name {
+    font-size: 1.125rem;
+  }
+
+  .start-content {
+    padding: 2rem 1.25rem;
+  }
+
+  .start-title {
+    font-size: 1.5rem;
+  }
+
+  .question-text {
+    font-size: 1.125rem;
+  }
+
+  .results-content {
+    padding: 2rem 1.25rem;
+  }
+
+  .results-title {
+    font-size: 1.5rem;
+  }
+
+  .score-circle {
+    width: 160px;
+    height: 160px;
+  }
+
+  .score-percentage {
+    font-size: 2.5rem;
+  }
+}
+
+/* Телефоны (376px - 639px) */
+@media (max-width: 639px) {
+  .quiz-app {
+    padding: 0.5rem;
+  }
+
+  .topic-selector {
+    padding: 1rem 0.5rem;
+  }
+
+  .header {
+    margin-bottom: 2rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .theme-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 100;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .topics-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .start-screen {
+    padding: 1rem 0.5rem;
+  }
+
+  .start-content {
+    padding: 2rem 1.5rem;
+  }
+
+  .start-stats {
+    gap: 1.5rem;
+  }
+
+  .stat-value {
+    font-size: 1.75rem;
+  }
+
+  .question-view {
+    padding: 1rem 0.5rem;
+  }
+
+  .question-content {
+    padding: 1.5rem;
+  }
+
+  .question-text {
+    font-size: 1.25rem;
+  }
+
+  .option-card {
+    padding: 0.875rem 1rem;
+  }
+
+  .option-letter {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.8125rem;
+  }
+
+  .option-text {
+    font-size: 0.9375rem;
+  }
+
+  .explanation {
+    padding: 1.25rem;
+  }
+
+  .results-view {
+    padding: 1rem 0.5rem;
+  }
+
+  .results-content {
+    padding: 2rem 1.5rem;
+  }
+
+  .results-emoji {
+    font-size: 3rem;
+  }
+
+  .results-actions {
+    flex-direction: column;
+  }
+
+  .button-primary,
+  .button-secondary {
+    width: 100%;
+  }
+}
+
+/* Планшеты портретные (640px - 767px) */
+@media (min-width: 640px) and (max-width: 767px) {
+  .topics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .question-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .back-button {
+    align-self: flex-start;
+  }
+
+  .progress-info {
+    width: 100%;
+  }
+}
+
+/* Планшеты ландшафт (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .topics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .start-screen {
+    max-width: 700px;
+  }
+
+  .question-view {
+    max-width: 900px;
+  }
+}
+
+/* Десктоп маленький (1024px - 1279px) */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .topics-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Десктоп большой (от 1280px) */
+@media (min-width: 1280px) {
+  .topic-selector {
+    max-width: 1200px;
+  }
+
+  .topics-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1200px;
+  }
+
+  .start-screen {
+    max-width: 700px;
+  }
+
+  .question-view {
+    max-width: 900px;
+  }
+
+  .results-view {
+    max-width: 700px;
+  }
+}
+
+/* Очень большие экраны (от 1536px) */
+@media (min-width: 1536px) {
+  .topic-selector {
+    max-width: 1200px;
+  }
+
+  .topics-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1200px;
+  }
+
+  .title {
+    font-size: 3rem;
+  }
+
+  .subtitle {
+    font-size: 1.25rem;
+  }
+
+  .question-text {
+    font-size: 1.5rem;
+  }
+
+  .option-text {
+    font-size: 1.0625rem;
+  }
+}
+
+/* 4K мониторы (от 2560px) */
+@media (min-width: 2560px) {
+  .topic-selector {
+    max-width: 1400px;
+  }
+
+  .topics-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1400px;
+  }
+}
+
+/* ============================================
+   Ландшафтная ориентация на телефонах
+   ============================================ */
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .quiz-app {
+    padding: 0.5rem;
+  }
+
+  .header {
+    margin-bottom: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .start-content {
+    padding: 1.5rem;
+  }
+
+  .topic-icon-large {
+    width: 4rem;
+    height: 4rem;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .start-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .start-description {
+    margin-bottom: 1.5rem;
+  }
+
+  .start-stats {
+    margin-bottom: 1.5rem;
+  }
+
+  .question-content {
+    padding: 1.5rem;
+  }
+
+  .question-text {
+    font-size: 1.125rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .options-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .results-emoji {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .results-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .score-circle {
+    width: 150px;
+    height: 150px;
+  }
+
+  .score-percentage {
+    font-size: 2rem;
+  }
+}
+
+/* ============================================
+   Touch устройства
+   ============================================ */
+
+@media (hover: none) and (pointer: coarse) {
+  /* Увеличиваем зоны клика на touch-устройствах */
+  .topic-card {
+    min-height: 180px;
+  }
+
+  .option-card {
+    min-height: 60px;
+  }
+
+  .back-button,
+  .theme-toggle {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .start-button,
+  .button-primary,
+  .button-secondary,
+  .next-button {
+    min-height: 48px;
+  }
+
+  /* Убираем hover-эффекты на touch */
+  .topic-card:hover:not(.coming-soon) {
+    transform: none;
+  }
+
+  .option-card:hover:not(:disabled) {
+    transform: none;
+  }
+
+  /* Активное состояние для touch */
+  .topic-card:active:not(.coming-soon) {
+    transform: scale(0.98);
+  }
+
+  .option-card:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  .start-button:active,
+  .button-primary:active,
+  .button-secondary:active {
+    transform: scale(0.98);
+  }
+}
+
+/* ============================================
+   Печать
+   ============================================ */
+
+@media print {
+  .theme-toggle,
+  .back-button,
+  .start-button,
+  .next-button,
+  .button-primary,
+  .button-secondary {
+    display: none;
+  }
+
+  .quiz-app {
+    background: white;
+    color: black;
+  }
+
+  .topic-card,
+  .question-content,
+  .results-content {
+    break-inside: avoid;
+    border: 1px solid #ddd;
+  }
+}
+
+/* ============================================
+   Prefers reduced motion
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .topic-card:hover:not(.coming-soon) {
+    transform: none;
+  }
+
+  .option-card:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .start-button:hover,
+  .button-primary:hover {
+    transform: none;
+  }
+}
+
+/* ============================================
+   High contrast mode
+   ============================================ */
+
+@media (prefers-contrast: high) {
+  :root[data-theme="light"] {
+    --border-color: #000000;
+    --text-secondary: #000000;
+  }
+
+  :root[data-theme="dark"] {
+    --border-color: #ffffff;
+    --text-secondary: #ffffff;
+  }
+
+  .topic-card,
+  .option-card,
+  .question-content {
+    border-width: 3px;
+  }
+}
+
+/* ============================================
+   Утилиты для скрытия на разных размерах
+   ============================================ */
+
+.hide-on-mobile {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .hide-on-mobile {
+    display: block;
+  }
+
+  .hide-on-desktop {
+    display: none;
+  }
+}
+
+/* ============================================
+   Контейнеры для гибкой верстки
+   ============================================ */
+
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
