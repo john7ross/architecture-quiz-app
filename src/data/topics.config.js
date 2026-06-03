@@ -36,7 +36,7 @@ export const topics = [
   },
   {
     id: 'ai',
-    name: 'AI и Автоматизация',
+    name: 'AI & Automatization',
     description: 'Нейросети, ML, агенты, MCP, transformers, RAG, fine-tuning',
     icon: 'Sparkles',
     color: '#f59e0b', // amber

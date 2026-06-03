@@ -152,8 +152,8 @@ function ArchitectureQuizApp() {
             Architecture Quiz
           </h1>
           <p className="subtitle">
-            Платформа для изучения архитектуры ПО, DocHub и Domain-Driven Design.
-            Выберите тему, чтобы начать.
+            Интерактивная платформа для проверки и получения новых знаний
+            архитекторами информационных систем. Выберите тему, чтобы начать.
           </p>
           <ThemeToggle theme={theme} onToggle={toggleTheme} />
         </div>
