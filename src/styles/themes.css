@@ -81,8 +81,6 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg-secondary);
   color: var(--text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -132,9 +130,11 @@ body {
 }
 
 .theme-toggle {
-  position: absolute;
-  top: 0;
-  right: 0;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
   background: var(--bg-tertiary);
   border: 1px solid var(--border-color);
   border-radius: 0.5rem;

@@ -446,7 +446,7 @@
    High contrast mode
    ============================================ */
 
-@media (prefers-contrast: high) {
+@media (prefers-contrast: more) {
   :root[data-theme="light"] {
     --border-color: #000000;
     --text-secondary: #000000;

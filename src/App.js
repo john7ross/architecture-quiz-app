@@ -137,6 +137,7 @@ function ArchitectureQuizApp() {
 
   const wrap = (content) => (
     <div className="quiz-app">
+      <ThemeToggle theme={theme} onToggle={toggleTheme} />
       {content}
       <Footer />
     </div>
@@ -155,7 +156,6 @@ function ArchitectureQuizApp() {
             Интерактивная платформа для проверки и получения новых знаний
             архитекторами информационных систем. Выберите тему, чтобы начать.
           </p>
-          <ThemeToggle theme={theme} onToggle={toggleTheme} />
         </div>
 
         <div className="topics-grid">
