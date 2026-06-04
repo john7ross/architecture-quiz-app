@@ -1,10 +1,18 @@
 {
   "files": {
-    "main.js": "/architecture-quiz-app/static/js/main.036c1917.js",
+    "main.css": "/architecture-quiz-app/static/css/main.b9f40c8e.css",
+    "main.js": "/architecture-quiz-app/static/js/main.c139a6f8.js",
+    "static/js/995.c5702e22.chunk.js": "/architecture-quiz-app/static/js/995.c5702e22.chunk.js",
+    "static/js/476.78437a5e.chunk.js": "/architecture-quiz-app/static/js/476.78437a5e.chunk.js",
+    "static/js/117.6f78af4b.chunk.js": "/architecture-quiz-app/static/js/117.6f78af4b.chunk.js",
+    "static/js/885.f0d5b857.chunk.js": "/architecture-quiz-app/static/js/885.f0d5b857.chunk.js",
+    "static/js/998.ec5e6045.chunk.js": "/architecture-quiz-app/static/js/998.ec5e6045.chunk.js",
     "index.html": "/architecture-quiz-app/index.html",
-    "main.036c1917.js.map": "/architecture-quiz-app/static/js/main.036c1917.js.map"
+    "main.b9f40c8e.css.map": "/architecture-quiz-app/static/css/main.b9f40c8e.css.map",
+    "main.c139a6f8.js.map": "/architecture-quiz-app/static/js/main.c139a6f8.js.map"
   },
   "entrypoints": [
-    "static/js/main.036c1917.js"
+    "static/css/main.b9f40c8e.css",
+    "static/js/main.c139a6f8.js"
   ]
 }
